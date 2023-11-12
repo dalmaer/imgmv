@@ -29,12 +29,16 @@ Attempting to rename "samples/Screenshot 2023-11-06 at 8.27.34 PM.png" to Thin
 Filename: WoodenPathThroughMeadow.jpg
 ```
 
-// % imgmv -f image.png
-// % imgmv -m -f image.png
-// % imgmv -u https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg
+## TODO: Given a directory, do this for all the things
+
+```bash
+% imgmv -d Screenshots/
+
+mv foo.jpg WoodenPathThroughMeadow.jpg
+mv bar.jpg Wiggles.jpg
+```
 
 # TODO
 
 - [ ] Given a directory (e.g. /Screenshots) go through them all and clean up shop
-- [ ] `-v` verbose move prints out the "mv file1 file2" so you can check and also then copy and paste
-- [ ] maybe do some error checking lol?
+- [ ] maybe do some error checking lol? not everything is an image
