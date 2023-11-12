@@ -36,3 +36,5 @@ Filename: WoodenPathThroughMeadow.jpg
 # TODO
 
 - [ ] Given a directory (e.g. /Screenshots) go through them all and clean up shop
+- [ ] `-v` verbose move prints out the "mv file1 file2" so you can check and also then copy and paste
+- [ ] maybe do some error checking lol?
