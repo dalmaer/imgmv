@@ -2,8 +2,10 @@
 
 // ------------------------------------------------------------------------
 // Usage:
-// % imgmv -f image.png
-// % imgmv -m -f image.png
+// % imgmv -f image.png    # Print out a nicer filename for the image
+// % imgmv -m -f image.png # Print out a nicer filename for the image and rename it!
+//
+// # Print out a nicer filename for the URL
 // % imgmv -u https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg
 // ------------------------------------------------------------------------
 
@@ -65,15 +67,15 @@ async function main(imageUrl) {
   let newFilename = response.choices[0]?.message?.content;
   if (newFilename) {
     console.log("Filename: ", response.choices[0]?.message?.content);
-    if (options.move && options.filename) {
+    if (options.filename) {
       let newWithExt = filenameWithExtension(
         newFilename,
         fileExtension(options.filename)
       );
-      console.log(
-        `Attempting to rename "${options.filename}" to ${newWithExt}"`
-      );
-      fs.renameSync(options.filename, newFilename);
+      console.log(`mv "${options.filename}" to "${newWithExt}"`);
+      if (options.move) {
+        fs.renameSync(options.filename, newWithExt);
+      }
     }
   } else {
     console.log("No filename found for ", filename);
