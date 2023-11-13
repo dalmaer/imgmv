@@ -41,4 +41,3 @@ mv bar.jpg Wiggles.jpg
 # TODO
 
 - [ ] Given a directory (e.g. /Screenshots) go through them all and clean up shop
-- [ ] maybe do some error checking lol? not everything is an image

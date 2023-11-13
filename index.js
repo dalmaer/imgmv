@@ -11,18 +11,19 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { fileTypeFromFile } from "file-type";
 import { Command } from "commander";
 import OpenAI from "openai";
 
-const openai = new OpenAI();
+// ------------------------------------------------------------------------
+// HELPERS
+// ------------------------------------------------------------------------
 
-const program = new Command();
-
-program.version("0.0.1");
-
-function base64(filename) {
+// Given a filename, return the base64 data URL for it
+async function base64(filename) {
   const data = fs.readFileSync(path.resolve(filename));
-  return "data:image/jpeg;base64," + data.toString("base64");
+  const mimetype = (await fileTypeFromFile(filename)).mime || "image/jpeg";
+  return `data:${mimetype};base64,${data.toString("base64")}`;
 }
 
 // Given a filename, return the file extension
@@ -85,6 +86,11 @@ async function main(imageUrl) {
 // ------------------------------------------------------------------------
 // MAIN
 // ------------------------------------------------------------------------
+const openai = new OpenAI();
+
+const program = new Command();
+
+program.version("0.0.1");
 
 // Define the CLI commands and options
 program
@@ -111,7 +117,18 @@ let imageUrl = "";
 if (options.url) {
   imageUrl = options.url;
 } else if (options.filename) {
-  imageUrl = base64(options.filename);
+  if (options.filename) {
+    const type = await fileTypeFromFile(options.filename);
+
+    if (type?.mime?.startsWith("image/")) {
+      imageUrl = await base64(options.filename);
+    } else {
+      console.log(
+        `${options.filename} is not an image file. It is type: ${type?.mime}`
+      );
+      process.exit(1);
+    }
+  }
 }
 
 main(imageUrl);
