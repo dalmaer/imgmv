@@ -9,8 +9,8 @@
 // % imgmv -u https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg
 // ------------------------------------------------------------------------
 
-import * as fs from "fs";
-import * as path from "path";
+import { readFileSync, renameSync } from "fs";
+import { resolve, extname } from "path";
 import { fileTypeFromFile } from "file-type";
 import { Command } from "commander";
 import OpenAI from "openai";
@@ -21,7 +21,7 @@ import OpenAI from "openai";
 
 // Given a filename, return the base64 data URL for it
 async function base64(filename) {
-  const data = fs.readFileSync(path.resolve(filename));
+  const data = readFileSync(resolve(filename));
   const mimetype = (await fileTypeFromFile(filename)).mime || "image/jpeg";
   return `data:${mimetype};base64,${data.toString("base64")}`;
 }
@@ -29,7 +29,7 @@ async function base64(filename) {
 // Given a filename, return the file extension
 // E.g. foo.jpg -> jpg
 function fileExtension(filename) {
-  return path.extname(filename);
+  return extname(filename);
 }
 
 // Given a filename with or without an extension, and a file extension, return the filename with the given extension
@@ -75,7 +75,7 @@ async function main(imageUrl) {
       );
       console.log(`mv "${options.filename}" to "${newWithExt}"`);
       if (options.move) {
-        fs.renameSync(options.filename, newWithExt);
+        renameSync(options.filename, newWithExt);
       }
     }
   } else {
