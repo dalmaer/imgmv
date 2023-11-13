@@ -9,10 +9,13 @@
 // % imgmv -u https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg
 // ------------------------------------------------------------------------
 
+// Standard Node.js modules
 import { readFileSync, renameSync } from "fs";
 import { resolve, extname } from "path";
-import { fileTypeFromFile } from "file-type";
+
+// Third-party modules
 import { Command } from "commander";
+import { fileTypeFromFile } from "file-type";
 import OpenAI from "openai";
 
 // ------------------------------------------------------------------------
